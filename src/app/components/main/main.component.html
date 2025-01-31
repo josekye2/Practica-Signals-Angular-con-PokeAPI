@@ -1,0 +1,72 @@
+<div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ overflow: 'hidden' }">
+        <ng-template #header>
+            <img alt="Card" class="w-10 h-10 object-cover" 
+                src="https://assets.isu.pub/document-structure/210405202957-4f9bb1b9ccc0600854b2698babdc5f08/v1/3c617d872690da3721ba8e4c9dc08f52.jpg?width=720&quality=85%2C50" />
+        </ng-template>
+        <ng-template #title> Busqueda Pokemon </ng-template>
+        <p>
+            <p-floatlabel variant="in">
+                <input pInputText id="in_label" #pokemonName placeholder="" 
+                (input)="updateName(pokemonName.value)">
+                <label for="in_label">Ingrese el nombre o ID de un pokemon</label>
+            </p-floatlabel>
+        </p>
+        <ng-template #footer>
+            <div class="flex gap-4 mt-1">
+                <p-button 
+                label="Buscar Pokemon" 
+                (click)="loadPokemon()"
+                severity="secondary" 
+                class="w-full" 
+                [outlined]="true" 
+                styleClass="w-full" />
+            </div> 
+        </ng-template>
+    </p-card>
+</div>
+
+
+<div class="flex flex-col items-center justify-center mt-8">
+    @if (loading()) {
+        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".45s" [style]="{ width: '50px', height: '50px' }" />
+    }
+    @if (this.animationArray().length === 2 && this.imagenActual()) {  
+        <p-card class="w-full max-w-md">
+            <ng-template #header>
+                <h1 class="text-2xl font-bold text-center">{{ pokemonData().species.name | titlecase }}</h1>
+            </ng-template>
+            <div class="flex flex-col items-center justify-center">
+                <img [src]="imagenActual()" height="150" width="150" class="animate-pulse" />
+            </div>
+            <ng-template #footer>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-semibold">Altura</p>
+                        <p>{{ pokemonData().height / 10 }} m</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Peso</p>
+                        <p>{{ pokemonData().weight / 10 }} kg</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Tipo</p>
+                        <p>
+                            @for (type of pokemonData().types; track type) {
+                                {{ type.type.name | titlecase }}<br>
+                            }
+                        </p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Habilidades</p>
+                        <p>
+                            @for (ability of pokemonData().abilities; track ability) {
+                                {{ ability.ability.name | titlecase }}<br>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    }
+</div>

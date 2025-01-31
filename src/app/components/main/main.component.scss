@@ -1,0 +1,32 @@
+.pokemon-card {
+    width: 300px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .pokemon-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+  }
+  
+  .p-toast {
+    z-index: 9999;
+  }
+  
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .animate-pulse {
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
