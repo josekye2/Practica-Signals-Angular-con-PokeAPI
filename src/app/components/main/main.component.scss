@@ -30,3 +30,24 @@
       opacity: 0.5;
     }
   }
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .p-card {
+    margin-top: 20px;
+  }
+  
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
