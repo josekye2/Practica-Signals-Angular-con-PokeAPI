@@ -5,8 +5,13 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ToastModule } from 'primeng/toast';
+import { Toast } from 'primeng/toast';
+import { Ripple } from 'primeng/ripple';
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast'
+
 
 @Component({
   selector: 'app-main',
@@ -16,13 +21,17 @@ import { CommonModule } from '@angular/common';
     InputTextModule,
     FloatLabel,
     ProgressSpinnerModule,
-    ToastModule,
-    CommonModule
+    Toast,
+    CommonModule,
+    MatSnackBarModule,
+    Ripple,
+    ToastModule
   ],
   
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [MessageService]  
 })
 export class MainComponent implements OnDestroy{
   pokemonNameOrId = signal('');
@@ -39,7 +48,7 @@ export class MainComponent implements OnDestroy{
  
   constructor( 
     private pokemonService: PokeapiService,
- // private _snackBar: MatSnackBar IMPORTANTE!!!!
+    private messageService: MessageService
     ){
       effect(() => {
         if (this.animating()) {
@@ -76,23 +85,21 @@ export class MainComponent implements OnDestroy{
         },
         error: (err: any) =>{ 
           console.log(err)
-          this.openSnackBarError()
+          this.showBarError()
           this.loading.set(false)
         }
       })
     } else {
-      this.openSnackSinData()
+      this.showSinData()
     }
   }
  
-  openSnackBarError() {
-   // this._snackBar.open( 'Nombre o id de pokemon no válido', 'Cerrar', {duration: 3000} );
-   console.log('Nombre o id de pokemon no válido');
+  showBarError() {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Nombre o id de pokemon no válido', life: 3000 });
   }
  
-  openSnackSinData() {
-   // this._snackBar.open( 'Escriba un nombre o id para cargar', 'Cerrar', {duration: 3000} );
-   console.log('Escriba un nombre o id para cargar');
+  showSinData() {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Nombre o id de pokemon no válido', life: 3000 });
   }
  
   iniciarAnimacion() {
